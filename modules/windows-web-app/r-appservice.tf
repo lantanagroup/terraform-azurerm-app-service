@@ -86,14 +86,14 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       }
 
       dynamic "virtual_application" {
-        for_each = lookup(site_config.value, "virtual_application", null) == null ? [] : [site_config.value.virtual_application]
+        for_each = lookup(site_config.value, "virtual_application", [])
         content {
-          physical_path = virtual_application.value.physical_path
-          preload       = lookup(virtual_application.value, "preload", null)
-          virtual_path  = virtual_application.value.virtual_path
+          physical_path = virtual_application.value[0].physical_path
+          preload       = lookup(virtual_application.value[0], "preload", null)
+          virtual_path  = virtual_application.value[0].virtual_path
         }
       }
-      
+
     }
   }
 
