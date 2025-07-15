@@ -84,6 +84,16 @@ resource "azurerm_windows_web_app" "app_service_windows" {
           support_credentials = lookup(cors.value, "support_credentials", null)
         }
       }
+
+      dynamic "virtual_application" {
+        for_each = lookup(site_config.value, "virtual_application", null) == null ? [] : [site_config.value.virtual_application]
+        content {
+          physical_path = virtual_application.value.physical_path
+          preload       = lookup(virtual_application.value, "preload", null)
+          virtual_path  = virtual_application.value.virtual_path
+        }
+      }
+      
     }
   }
 

@@ -2,11 +2,6 @@ locals {
   default_site_config = {
     always_on               = "true"
     scm_minimum_tls_version = "1.2"
-    virtual_application = {
-      physical_path = "site\\wwwroot"
-      preload       = false
-      virtual_path  = "/"
-    }
   }
 
   site_config              = merge(local.default_site_config, var.site_config)
